@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <style>
+        body {
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .header {
+            background-color: rgb(30, 164, 182);
+            color: white;
+            padding: 20px;
+            border-bottom: 5px solid white;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            margin: 0;
+        }
+        .header h1 {
+            font-size: 3em;
+            margin: 0;
+        }
+        .otp-container {
+            display: inline-block;
+            background-color: rgb(30, 164, 182); /* Matching the color of the header */
+            padding: 40px 30px;
+            margin-top: 150px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%;
+        }
+        .otp-container h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: white; /* Changing the color of the Enter OTP text to white */
+        }
+        .otp-container input {
+            width: 100%;
+            padding: 15px 20px; /* Added left and right padding */
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1.2em;
+            box-sizing: border-box; /* Ensures padding doesn't affect the width */
+            background-color: white; /* Keeping input background white for better contrast */
+            color: black; /* Text color inside the input box */
+        }
+        /* Verify Button Styling */
+        .otp-container button {
+            background-color: #003366; /* Dark blue shade */
+            color: white;
+            padding: 15px;
+            width: 100%;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .otp-container button:hover {
+            background-color: #4CAF50; /* Change to green when hovered */
+        }
+
+        /* Remove arrows from input of type number */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            appearance: textfield; /* Firefox */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>OTP Verification</h1>
+    </div>
+
+    <div class="otp-container">
+        <h2>Enter OTP</h2>
+        <form id="otpForm">
+            <input type="text" id="otpInput" placeholder="Enter the 6-digit OTP" maxlength="6" required pattern="\d{6}"><br>
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+
+    <script>
+        // Validate OTP on form submit
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            const userOtp = document.getElementById('otpInput').value;
+            const storedOtp = sessionStorage.getItem('otp');
+
+            if (userOtp === storedOtp) {
+                alert('OTP Verified Successfully!');
+                // Redirect to a success page or dashboard (implement as needed)
+                window.location.href = 'dashboard.html'; // Example redirection to a dashboard
+            } else {
+                alert('Incorrect OTP. Please try again.');
+                e.preventDefault(); // Prevent form submission if OTP is wrong
+            }
+        });
+    </script>
+</body>
+</html>
