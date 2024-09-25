@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictocracy.com</title>
+    <style>
+        body {
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-image: url('https://cdn.vectorstock.com/i/500p/66/49/grunge-background-in-colors-of-indian-flag-vector-21186649.jpg'); /* Background image */
+            background-size: cover; /* Cover the entire body */
+            background-position: center; /* Center the background image */
+        }
+        .header {
+            background-color: rgba(28, 19, 146, 0.8); /* Semi-transparent header */
+            color: white;
+            padding: 30px; /* Increased padding for a larger header */
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            margin: 0;
+        }
+        .header h1 {
+            font-size: 4em; /* Increased font size for header text */
+            margin: 0;
+        }
+        .login-container {
+            display: inline-block;
+            background-color: rgba(17, 9, 110, 0.662); /* Semi-transparent container */
+            color: rgb(239, 238, 241); /* Text color */
+            padding: 40px 30px;
+            margin-top: 150px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%;
+        }
+        .login-container h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 15px; /* Inside padding */
+            margin: 10px 0; /* Space between inputs */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1.2em;
+            background-color: white; /* Input fields white */
+            color: black; /* Text color for input fields */
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+        .login-container button {
+            background-color: #003366; /* Dark blue color */
+            color: white;
+            padding: 15px;
+            width: 100%;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #00509e; /* Lighter blue on hover */
+        }
+        .captcha-container {
+            margin: 20px 0;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .captcha-container input {
+            width: 50%;
+            padding: 10px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Dictocracy!!</h1>
+    </div>
+
+    <div class="login-container">
+        <h2>Log In</h2>
+        <form id="loginForm">
+            <input type="text" id="voterId" placeholder="Enter your Voter ID" required><br>
+            <input type="email" id="email" placeholder="Enter your Email" required><br>
+            <div class="captcha-container">
+                <label for="captcha">What is <span id="num1"></span> + <span id="num2"></span>?</label><br>
+                <input type="number" id="captchaInput" placeholder="Enter your answer" required><br>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Generating random numbers for CAPTCHA
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        const captchaResult = num1 + num2;
+
+        document.getElementById('num1').textContent = num1;
+        document.getElementById('num2').textContent = num2;
+
+        // OTP Generation
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
+        }
+
+        // Captcha validation on form submit
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const userAnswer = document.getElementById('captchaInput').value;
+            if (parseInt(userAnswer) !== captchaResult) {
+                alert('Incorrect CAPTCHA. Please try again.');
+                e.preventDefault(); // Prevent form submission if CAPTCHA is wrong
+            } else {
+                const otp = generateOTP();
+                sessionStorage.setItem('otp', otp);
+
+                const email = document.getElementById('email').value;
+                alert(`OTP sent to ${email}. (In practice, the email will be sent to the server to send.)`);
+                window.location.href = 'otp.html'; // Redirect to the OTP entry page
+            }
+        });
+    </script>
+</body>
+</html>
